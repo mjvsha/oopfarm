@@ -37,6 +37,8 @@ class Farm
   def initialize (type, area)
   @field_type = type
   @area = area
+
+  @@total_fields << self
   end
 
   def field_type
@@ -66,32 +68,36 @@ class Farm
   def self.status
     #iterate through your fields and then print out the field type and area
     @@total_fields.each do |field|
-      puts "#{field.field_type} is #{field.area} hectares."
+      puts "#{field.field_type} field is #{field.area} hectares."
     end
 
-    puts "Total food produced #{@@total_harvested}"
+    puts "Total food produced is #{@@total_harvested}"
 
   end
 
   def self.relax
 
-    if self.field_type == "blueberry"
+    @@total_fields.each do |field|
+
+      if field.field_type == "blueberry"
       "A sweetness dances across the air. Blueish bushes rustle lazily in the afternoon wind. You smoke a fat joint"
 
-    elsif self.field_type == "potato"
-      "You came here to enjoy the view but you forgot that it's a potato field and all you see is dirt"
-    end 
+    elsif field.field_type == "potato"
+      "You came here to enjoy the view but you forgot that it's a potato field and you cant see anything"
+    end
+  end
+
   end
 
 
 
-  def self.create(type, area)
+  def self.create
 
     puts "What type of field do you want, farmer? Blueberry or potato?"
     type = gets.chomp.strip
     puts "Nice! A #{type} field is always welcome. How large is this field going to be?"
     area = gets.chomp.strip.to_i
-    field = Field.new(type, area)
+    field = Farm.new(type, area)
     @@total_fields << field
     "There! Your #{type} field of #{area} hectares has officially been created! "
 
@@ -111,8 +117,22 @@ end
 
 
 
+puts farm = Farm.new("blueberry", 40)
+puts farm2 = Farm.new("potato", 10)
+puts farm3 = Farm.new("blueberry", 30)
+puts farm4 = Farm.new("blueberry", 10)
+puts farm.harvest
+puts farm4.harvest
+puts farm3.harvest
 
+
+puts Farm.create
+
+puts Farm.status
 
 
 #i am creating a field class, where i will create instances
 #of fields, and they are gonna have the behaviors of being able to relax, checking status, and creating a new field
+
+
+#the farm status is not printing out my array
